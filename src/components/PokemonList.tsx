@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
 import pokeball from 'assets/pokeball.png';
@@ -55,11 +55,22 @@ const Hover = styled.div`
 
 const PokemonList: React.FC = () => {
   const [filter, setFilter] = useState('');
+  const [readyFilter, setReadyFilter] = useState('');
   const [loading, setLoading] = useState(0);
+  const timeoutRef = useRef(null);
 
-  const { Pagination, pokemonPage } = usePokemonPagination(filter);
+  const { Pagination, pokemonPage } = usePokemonPagination(readyFilter);
 
   const isLoading = loading < pokemonPage.length - 1;
+  useEffect(() => {
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      timeoutRef.current = null;
+      setReadyFilter(filter);
+    }, 500);
+  }, [filter]);
 
   useEffect(() => {
     setLoading(0);
@@ -87,7 +98,7 @@ const PokemonList: React.FC = () => {
           ))}
         </Grid>
         <div>
-          <Pagination disabled={isLoading}/>
+          <Pagination disabled={isLoading} />
         </div>
       </Box>
     </>
