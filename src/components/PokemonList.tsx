@@ -59,7 +59,7 @@ const PokemonList: React.FC = () => {
 
   const { Pagination, pokemonPage } = usePokemonPagination(filter);
 
-  const isLoading = loading < pokemonPage.length -1;
+  const isLoading = loading < pokemonPage.length - 1;
 
   useEffect(() => {
     setLoading(0);
@@ -87,7 +87,7 @@ const PokemonList: React.FC = () => {
           ))}
         </Grid>
         <div>
-          <Pagination />
+          <Pagination disabled={isLoading}/>
         </div>
       </Box>
     </>

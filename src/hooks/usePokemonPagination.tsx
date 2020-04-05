@@ -36,12 +36,13 @@ const usePokemonPagination = filter => {
     });
   }, [currentPage, filter, pokemons]);
 
-  const Pagination = () => (
+  const Pagination = ({ disabled }) => (
     <PaginationBase
       count={pageCount}
       color="secondary"
       page={currentPage + 1}
       onChange={(_e, page) => setCurrentPage(page - 1)}
+      disabled={disabled}
     />
   );
 
