@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Pagination } from '@material-ui/lab';
+import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
 import {
   getPokemonProperties,
   PokemonContext,
@@ -50,10 +51,6 @@ const PokemonImg = styled.img`
   transform: scale(0.6);
 `;
 
-const NoImgText = styled.div`
-  font-size: 0.5rem;
-`;
-
 const PAGE_SIZE = 56;
 
 const PokemonList: React.FC = () => {
@@ -85,14 +82,10 @@ const PokemonList: React.FC = () => {
         <Grid>
           {pokemonsInfo?.map((pokemon, i) => (
             <Pokemon key={i}>
-              {pokemon.sprites.front_default ? (
-                <PokemonImg
-                  src={pokemon.sprites.front_default}
-                  alt={pokemon.name}
-                />
-              ) : (
-                <NoImgText>{pokemon.name}</NoImgText>
-              )}
+              <PokemonImg
+                src={pokemon.sprites.front_default ?? pokemonWithoutSprite}
+                alt={pokemon.name}
+              />
             </Pokemon>
           ))}
         </Grid>

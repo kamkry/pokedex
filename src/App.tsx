@@ -1,10 +1,9 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import pokedexLogo from './assets/pokedex.png';
-import PokemonList from './components/PokemonList';
-import PokemonOverview from './components/PokemonOverview';
-import Search from './components/Search';
-import { PokemonProvider } from './contexts/PokemonContext';
+import PokemonOverview from 'components/PokemonOverview';
+import { PokemonProvider } from 'contexts/PokemonContext';
+import pokedexLogo from 'assets/pokedex.png';
+import PokemonList from 'components/PokemonList';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after{

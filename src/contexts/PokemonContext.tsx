@@ -14,7 +14,7 @@ export const getPokemonProperties = list => {
   const promises = list.map(pokemon => {
     return fetch(pokemon.url).then(r => r.json());
   });
-  return Promise.all(promises);
+  return Promise.all(promises) as Promise<any>;
 };
 
 export const PokemonContext = createContext(defaultResult);
