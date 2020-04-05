@@ -16,6 +16,7 @@ const Box = styled.section`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  -webkit-backface-visibility: hidden;
 `;
 
 const Grid = styled.div`
@@ -34,7 +35,7 @@ const Pokemon = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 10%;
-  transition: background-color 0.1s linear;
+  transition: background-color 0.1s ease-out, transform 0.1s ease-out;
 
   :hover {
     background-color: #e3eff4;
@@ -43,6 +44,13 @@ const Pokemon = styled.div`
   & > * {
     transform: scale(2);
   }
+  :hover :after {
+    content: 'siema';
+    height: 100px;
+    width: 100px;
+    background-color: red;
+  }
+
   :active {
     background-color: #d0dbe0;
   }
@@ -58,22 +66,27 @@ const PokemonList: React.FC = () => {
   const [filter, setFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [pokemonsInfo, setPokemonsInfo] = useState([]);
+  const [pageCount, setPageCount] = useState(1);
 
   useEffect(() => {
     if (pokemons.loading) return;
     const filtered = pokemons.data.filter(({ name }) => name.includes(filter));
 
-    const sliced = filter
-      ? filtered.slice(0, PAGE_SIZE)
-      : filtered.slice(
-          currentPage * PAGE_SIZE,
-          currentPage * PAGE_SIZE + PAGE_SIZE
-        );
+    setPageCount(
+      filter
+        ? Math.ceil(filtered.length / PAGE_SIZE)
+        : Math.ceil(pokemons.data.length / PAGE_SIZE)
+    );
+
+    const sliced = filtered.slice(
+      currentPage * PAGE_SIZE,
+      currentPage * PAGE_SIZE + PAGE_SIZE
+    );
 
     getPokemonProperties(sliced).then(res => {
       setPokemonsInfo(res);
     });
-  }, [currentPage, filter, pokemons]);
+  }, [currentPage, filter, pokemons, pokemonsInfo.length]);
 
   return (
     <>
@@ -91,14 +104,10 @@ const PokemonList: React.FC = () => {
         </Grid>
         <div>
           <Pagination
-            count={
-              filter
-                ? Math.ceil(pokemonsInfo.length / PAGE_SIZE)
-                : Math.ceil(pokemons.data.length / PAGE_SIZE)
-            }
+            count={pageCount}
             color="secondary"
             page={currentPage + 1}
-            onChange={(_, page) => setCurrentPage(page - 1)}
+            onChange={(_e, page) => setCurrentPage(page - 1)}
           />
         </div>
       </Box>
