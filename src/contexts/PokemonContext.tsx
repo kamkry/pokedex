@@ -10,13 +10,6 @@ const defaultResult: Result = {
   data: [],
 };
 
-export const getPokemonProperties = list => {
-  const promises = list.map(pokemon => {
-    return fetch(pokemon.url).then(r => r.json());
-  });
-  return Promise.all(promises) as Promise<any>;
-};
-
 export const PokemonContext = createContext(defaultResult);
 
 export const PokemonProvider: React.FC = ({ children }) => {

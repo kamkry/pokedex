@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
+import pokeball from 'assets/pokeball.png';
 import Search from './Search';
-import usePokemonPagination from '../hooks/usePokemonPagination';
+import usePokemonPagination, { PAGE_SIZE } from '../hooks/usePokemonPagination';
+import Spinner from './Spinner';
 
 const Box = styled.section`
   grid-area: 3/1/3/4;
@@ -29,45 +31,55 @@ const Pokemon = styled.div`
   overflow: hidden;
   display: flex;
   align-items: center;
+  border-radius: 50%;
   justify-content: center;
-  border-radius: 10%;
   transition: background-color 0.1s ease-out, transform 0.1s ease-out;
 
   :hover {
-    background-color: #e3eff4;
+    z-index: 1;
   }
   :hover,
   & > * {
-    transform: scale(2);
+    transform: scale(1.5);
   }
-  :hover :after {
-    content: 'siema';
-    height: 100px;
-    width: 100px;
-    background-color: red;
-  }
-
   :active {
-    background-color: #d0dbe0;
+    filter: brightness(0.5);
   }
 `;
 const PokemonImg = styled.img`
   transform: scale(0.6);
 `;
+const Hover = styled.div`
+  position: absolute;
+`;
 
 const PokemonList: React.FC = () => {
   const [filter, setFilter] = useState('');
+  const [loading, setLoading] = useState(0);
 
   const { Pagination, pokemonPage } = usePokemonPagination(filter);
+
+  const isLoading = loading < pokemonPage.length -1;
+
+  useEffect(() => {
+    setLoading(0);
+  }, [pokemonPage]);
 
   return (
     <>
       <Search value={filter} onChange={e => setFilter(e.target.value)} />
       <Box>
-        <Grid>
+        {isLoading ? <Spinner /> : null}
+        <Grid
+          style={{
+            visibility: isLoading ? 'hidden' : 'visible',
+          }}
+        >
           {pokemonPage?.map((pokemon, i) => (
             <Pokemon key={i}>
+              <Hover />
               <PokemonImg
+                onLoad={() => setLoading(x => x + 1)}
                 src={pokemon.sprites.front_default ?? pokemonWithoutSprite}
                 alt={pokemon.name}
               />
