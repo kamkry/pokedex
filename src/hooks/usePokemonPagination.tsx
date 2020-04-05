@@ -19,6 +19,7 @@ const usePokemonPagination = filter => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pokemonPage, setPokemonPage] = useState([]);
   const [pageCount, setPageCount] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
   const pokemons = useContext(PokemonContext);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const usePokemonPagination = filter => {
     const sliced = getPage(filtered, currentPage);
     getPokemonProperties(sliced).then(res => {
       setPokemonPage(res);
+      setPageSize(res.filter(p => p.sprites.front_default).length);
     });
   }, [currentPage, filter, pokemons]);
 
@@ -46,7 +48,7 @@ const usePokemonPagination = filter => {
     />
   );
 
-  return { Pagination, pokemonPage };
+  return { Pagination, pokemonPage, pageSize };
 };
 
 export default usePokemonPagination;

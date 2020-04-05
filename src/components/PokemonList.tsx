@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
-import pokeball from 'assets/pokeball.png';
 import Search from './Search';
-import usePokemonPagination, { PAGE_SIZE } from '../hooks/usePokemonPagination';
+import usePokemonPagination from '../hooks/usePokemonPagination';
 import Spinner from './Spinner';
 
 const Box = styled.section`
   grid-area: 3/1/3/4;
   background-color: white;
-  padding: 0.5rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -59,9 +58,12 @@ const PokemonList: React.FC = () => {
   const [loading, setLoading] = useState(0);
   const timeoutRef = useRef(null);
 
-  const { Pagination, pokemonPage } = usePokemonPagination(readyFilter);
+  const { Pagination, pokemonPage, pageSize } = usePokemonPagination(
+    readyFilter
+  );
 
-  const isLoading = loading < pokemonPage.length - 1;
+  const isLoading = loading < pageSize - 1;
+
   useEffect(() => {
     if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current);
@@ -93,6 +95,7 @@ const PokemonList: React.FC = () => {
                 onLoad={() => setLoading(x => x + 1)}
                 src={pokemon.sprites.front_default ?? pokemonWithoutSprite}
                 alt={pokemon.name}
+                title={pokemon.name}
               />
             </Pokemon>
           ))}
