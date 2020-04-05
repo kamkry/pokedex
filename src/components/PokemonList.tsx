@@ -1,12 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Pagination } from '@material-ui/lab';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
-import {
-  getPokemonProperties,
-  PokemonContext,
-} from '../contexts/PokemonContext';
 import Search from './Search';
+import usePokemonPagination from '../hooks/usePokemonPagination';
 
 const Box = styled.section`
   grid-area: 3/1/3/4;
@@ -59,41 +55,17 @@ const PokemonImg = styled.img`
   transform: scale(0.6);
 `;
 
-const PAGE_SIZE = 56;
-
 const PokemonList: React.FC = () => {
-  const pokemons = useContext(PokemonContext);
   const [filter, setFilter] = useState('');
-  const [currentPage, setCurrentPage] = useState(0);
-  const [pokemonsInfo, setPokemonsInfo] = useState([]);
-  const [pageCount, setPageCount] = useState(1);
 
-  useEffect(() => {
-    if (pokemons.loading) return;
-    const filtered = pokemons.data.filter(({ name }) => name.includes(filter));
-
-    setPageCount(
-      filter
-        ? Math.ceil(filtered.length / PAGE_SIZE)
-        : Math.ceil(pokemons.data.length / PAGE_SIZE)
-    );
-
-    const sliced = filtered.slice(
-      currentPage * PAGE_SIZE,
-      currentPage * PAGE_SIZE + PAGE_SIZE
-    );
-
-    getPokemonProperties(sliced).then(res => {
-      setPokemonsInfo(res);
-    });
-  }, [currentPage, filter, pokemons, pokemonsInfo.length]);
+  const { Pagination, pokemonPage } = usePokemonPagination(filter);
 
   return (
     <>
       <Search value={filter} onChange={e => setFilter(e.target.value)} />
       <Box>
         <Grid>
-          {pokemonsInfo?.map((pokemon, i) => (
+          {pokemonPage?.map((pokemon, i) => (
             <Pokemon key={i}>
               <PokemonImg
                 src={pokemon.sprites.front_default ?? pokemonWithoutSprite}
@@ -103,12 +75,7 @@ const PokemonList: React.FC = () => {
           ))}
         </Grid>
         <div>
-          <Pagination
-            count={pageCount}
-            color="secondary"
-            page={currentPage + 1}
-            onChange={(_e, page) => setCurrentPage(page - 1)}
-          />
+          <Pagination />
         </div>
       </Box>
     </>
