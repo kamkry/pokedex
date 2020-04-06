@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
+import { PokemonContext } from '../contexts/PokemonContext';
 
 const Box = styled.section`
   grid-area: 3/4/3/7;
@@ -18,11 +19,25 @@ const PokemonImg = styled.img`
 `;
 
 const PokemonOverview: React.FC = () => {
-  const [selected] = useContext(SelectedPokemonContext);
+  const pokemons = useContext(PokemonContext);
+  const [selected, setSelected] = useContext(SelectedPokemonContext);
 
+  const next = () => {
+    if (selected < pokemons.data.length) {
+      setSelected(i => i + 1);
+    }
+  };
+  const previous = () => {
+    if (selected > 0) {
+      setSelected(i => i + 1);
+    }
+  };
+  console.log(pokemons.data[selected]);
   return (
     <Box>
-      <PokemonImg src={selected?.sprites.front_default} />
+      <button onClick={previous}>prev</button>
+      <button onClick={next}>next</button>
+      <PokemonImg src={selected?.sprites?.front_default} />
     </Box>
   );
 };

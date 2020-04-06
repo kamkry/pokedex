@@ -96,9 +96,9 @@ const PokemonList: React.FC = () => {
             <Pokemon
               key={i}
               onClick={() => {
-                setSelected(pokemon);
+                setSelected(pokemon.index);
               }}
-              selected={selected?.id === pokemon.id}
+              selected={selected === pokemon.index}
             >
               <Hover />
               <PokemonImg

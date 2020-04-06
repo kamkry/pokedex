@@ -11,7 +11,9 @@ const getPage = (data: any[], page: number) => {
 
 export const getPokemonProperties = list => {
   const promises = list.map(pokemon => {
-    return fetch(pokemon.url).then(r => r.json());
+    return fetch(pokemon.url)
+      .then(r => r.json())
+      .then(r => ({ ...r, index: pokemon.index }));
   });
   return Promise.all(promises) as Promise<any>;
 };

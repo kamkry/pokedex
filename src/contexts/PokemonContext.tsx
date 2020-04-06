@@ -19,7 +19,10 @@ export const PokemonProvider: React.FC = ({ children }) => {
     return fetch(url)
       .then(res => res.json())
       .then(res => {
-        setResult({ loading: false, data: res.results });
+        setResult({
+          loading: false,
+          data: res.results.map((p, i) => ({ ...p, index: i })),
+        });
       });
   };
 
