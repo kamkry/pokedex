@@ -86,11 +86,12 @@ const PokemonList: React.FC = () => {
   return (
     <>
       <Search value={filter} onChange={e => setFilter(e.target.value)} />
+
       <Box>
         {isLoading ? <Spinner /> : null}
         <Grid
           style={{
-            visibility: isLoading ? 'hidden' : 'visible',
+            display: isLoading ? 'none' : 'grid',
           }}
         >
           {pokemonPage?.map((pokemon, i) => (

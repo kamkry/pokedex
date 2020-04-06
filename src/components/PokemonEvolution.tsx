@@ -5,6 +5,7 @@ import { NavigateNext } from '@material-ui/icons';
 import { API_URL } from '../index';
 import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
 import { PokemonContext } from '../contexts/PokemonContext';
+import Spinner from './Spinner';
 
 const EvolutionWrapper = styled.div`
   display: flex;
@@ -49,6 +50,7 @@ const PokemonEvolution = ({ evolution }) => {
   const [chain, setChain] = useState([]);
   const pokemons = useContext(PokemonContext);
   const [selected, setSelected] = useContext(SelectedPokemonContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!evolution.chain.evolves_to.length) return;
@@ -68,12 +70,15 @@ const PokemonEvolution = ({ evolution }) => {
 
     Promise.all(promises).then(res => {
       setChain(res);
+      setLoading(false);
     });
   }, [evolution.chain, evolution.evolves_to]);
 
   const changeSelected = name => {
     setSelected(pokemons.data.find(p => p.name === name).index);
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <EvolutionWrapper>

@@ -13,9 +13,8 @@ const Spinning = keyframes`
 `;
 
 const SpinnerWrapper = styled.div`
-  position: absolute;
+  height: 100%;
   display: flex;
-  height: 39%;
   align-items: center;
   justify-content: center;
   opacity: 0;
