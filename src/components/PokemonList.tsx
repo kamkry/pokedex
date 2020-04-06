@@ -25,29 +25,37 @@ const Grid = styled.div`
   min-height: 0;
   min-width: 0;
   height: 100%;
+  width: 100%;
   margin-bottom: 1rem;
 `;
 
-const Pokemon = styled.div<{ selected: boolean }>`
-  overflow: hidden;
-  display: flex;
-  align-items: center;
+const Pokemon = styled.button<{ selected: boolean }>`
+  position: relative;
+  border: none;
+  margin: 0;
   border-radius: 50%;
-  justify-content: center;
+  background-color: ${({ selected }) =>
+    selected ? 'rgba(213,213,213,0.71)' : 'transparent'};
   transition: background-color 0.1s ease-out, transform 0.1s ease-out;
 
   :hover {
     z-index: 1;
   }
-  :hover,
-  & > * {
+  :hover {
+    transform: scale(${({ selected }) => (selected ? 1 : 1.5)});
+  }
+  & > img {
+    position: absolute;
     transform: scale(1.5);
+    width: 100%;
+    left: 0;
+    top: 0;
+    pointer-events: none;
   }
-  :active {
-    filter: brightness(0.5);
+  :focus {
+    box-shadow: 0 0 0 0.2rem #00a7dd;
+    outline: none;
   }
-  background-color: ${({ selected }) =>
-    selected ? 'rgba(184,184,184,0.71)' : 'transparent'};
 `;
 const PokemonImg = styled.img`
   transform: scale(0.6);
@@ -97,10 +105,12 @@ const PokemonList: React.FC = () => {
           {pokemonPage?.map((pokemon, i) => (
             <Pokemon
               key={i}
+              tabIndex={0}
               onClick={() => {
                 setSelected(pokemon.index);
               }}
               selected={selected === pokemon.index}
+              disabled={selected === pokemon.index}
             >
               <Hover />
               <PokemonImg

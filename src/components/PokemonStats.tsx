@@ -14,8 +14,6 @@ const Stats = styled.div`
   }
 `;
 
-const Title = styled.h4``;
-
 const Stat = styled.div`
   display: flex;
   align-items: center;

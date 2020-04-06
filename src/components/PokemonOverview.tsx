@@ -92,7 +92,7 @@ const PokemonOverview: React.FC = () => {
         <PokemonMeasurement name="weight" value={`${pokemon.weight / 10}kg`} />
       </CenterWrapper>
       <PokemonStats stats={pokemon.stats} />
-      <PokemonEvolution evolution={pokemon.evolution} />
+      <PokemonEvolution evolution={pokemon.evolution}/>
     </Box>
   );
 };

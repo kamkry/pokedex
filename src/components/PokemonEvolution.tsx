@@ -95,7 +95,7 @@ const PokemonEvolution = ({ evolution }) => {
 
   return (
     <Wrapper>
-      <Label>{chain.length ? 'Evolution' : ''}</Label>
+      <Label>{chain && 'Evolution'}</Label>
       <Evolution>
         {chain
           .map(pokemon => (
