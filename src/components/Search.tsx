@@ -20,8 +20,8 @@ const Input = styled.input`
 
 const StyledIcon = styled(SearchIcon)`
   position: absolute;
-  margin-left: 1.6rem;
-  transform: scale(1.5);
+  margin-left: 1rem;
+  transform: scale(1);
   color: darkgrey;
 `;
 
@@ -33,7 +33,11 @@ const Search: React.FC<SearchProps> = ({ value, onChange }) => {
   return (
     <Bar>
       <StyledIcon />
-      <Input placeholder="Find a Pokémon..." value={value} onChange={onChange} />
+      <Input
+        placeholder="Find a Pokémon..."
+        value={value}
+        onChange={onChange}
+      />
     </Bar>
   );
 };

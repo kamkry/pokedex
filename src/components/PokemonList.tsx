@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
 import Search from './Search';
 import usePokemonPagination from '../hooks/usePokemonPagination';
 import Spinner from './Spinner';
+import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
 
 const Box = styled.section`
   grid-area: 3/1/3/4;
@@ -27,7 +28,7 @@ const Grid = styled.div`
   margin-bottom: 1rem;
 `;
 
-const Pokemon = styled.div`
+const Pokemon = styled.div<{ selected: boolean }>`
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -45,6 +46,7 @@ const Pokemon = styled.div`
   :active {
     filter: brightness(0.5);
   }
+  background-color: ${({ selected }) => (selected ? 'red' : 'transparent')};
 `;
 const PokemonImg = styled.img`
   transform: scale(0.6);
@@ -59,6 +61,7 @@ const PokemonList: React.FC = () => {
   const [loading, setLoading] = useState(0);
   const timeoutRef = useRef(null);
 
+  const [selected, setSelected] = useContext(SelectedPokemonContext);
   const { Pagination, pokemonPage, pageSize } = usePokemonPagination(
     readyFilter
   );
@@ -90,7 +93,13 @@ const PokemonList: React.FC = () => {
           }}
         >
           {pokemonPage?.map((pokemon, i) => (
-            <Pokemon key={i}>
+            <Pokemon
+              key={i}
+              onClick={() => {
+                setSelected(pokemon);
+              }}
+              selected={selected?.id === pokemon.id}
+            >
               <Hover />
               <PokemonImg
                 onLoad={() => setLoading(x => x + 1)}

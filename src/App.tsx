@@ -4,6 +4,10 @@ import PokemonOverview from 'components/PokemonOverview';
 import { PokemonProvider } from 'contexts/PokemonContext';
 import pokedexLogo from 'assets/pokedex.png';
 import PokemonList from 'components/PokemonList';
+import {
+  SelectedPokemonContext,
+  SelectedPokemonProvider,
+} from './contexts/SelectedPokemonContext';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after{
@@ -58,18 +62,20 @@ const App: React.FC = () => {
   return (
     <>
       <GlobalStyle />
-      <PokemonProvider>
-        <Center>
-          <MainContainer>
-            <Logo>
-              <LogoImg src={pokedexLogo} alt="Logo" />
-            </Logo>
-            <PokemonList />
-            <PokemonOverview />
-            <Footer>By Kamil Krysiak</Footer>
-          </MainContainer>
-        </Center>
-      </PokemonProvider>
+      <Center>
+        <MainContainer>
+          <Logo>
+            <LogoImg src={pokedexLogo} alt="Logo" />
+          </Logo>
+          <PokemonProvider>
+            <SelectedPokemonProvider>
+              <PokemonList />
+              <PokemonOverview />
+            </SelectedPokemonProvider>
+          </PokemonProvider>
+          <Footer>By Kamil Krysiak</Footer>
+        </MainContainer>
+      </Center>
     </>
   );
 };

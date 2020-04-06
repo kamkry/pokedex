@@ -1,33 +1,13 @@
-import React, { useEffect, createContext, useState } from 'react';
-import { API_URL } from '../index';
+import React, { createContext, useState } from 'react';
 
-interface Result {
-  loading: boolean;
-  data: any[];
-}
-const defaultResult: Result = {
-  loading: true,
-  data: [],
-};
+export const SelectedPokemonContext = createContext(null);
 
-export const PokemonContext = createContext(defaultResult);
-
-export const PokemonProvider: React.FC = ({ children }) => {
-  const [result, setResult] = useState(defaultResult);
-
-  const fetchData = (url: string) => {
-    return fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        setResult({ loading: false, data: res.results });
-      });
-  };
-
-  useEffect(() => {
-    fetchData(`${API_URL}/pokemon?limit=1000`);
-  }, []);
+export const SelectedPokemonProvider: React.FC = ({ children }) => {
+  const [selected, setSelected] = useState(null);
 
   return (
-    <PokemonContext.Provider value={result}>{children}</PokemonContext.Provider>
+    <SelectedPokemonContext.Provider value={[selected, setSelected]}>
+      {children}
+    </SelectedPokemonContext.Provider>
   );
 };
