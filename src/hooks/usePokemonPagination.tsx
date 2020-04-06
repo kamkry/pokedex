@@ -24,6 +24,10 @@ const usePokemonPagination = filter => {
   const pokemons = useContext(PokemonContext);
 
   useEffect(() => {
+    setCurrentPage(0);
+  }, [filter]);
+
+  useEffect(() => {
     const filtered = pokemons.data.filter(({ name }) => name.includes(filter));
 
     setPageCount(
@@ -43,6 +47,7 @@ const usePokemonPagination = filter => {
   const Pagination = ({ disabled }) => (
     <ThemeProvider theme={theme}>
       <PaginationBase
+        defaultPage={1}
         count={pageCount}
         color="secondary"
         page={currentPage + 1}
