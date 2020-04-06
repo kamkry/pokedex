@@ -7,12 +7,22 @@ import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
 import { PokemonContext } from '../contexts/PokemonContext';
 import Spinner from './Spinner';
 
-const EvolutionWrapper = styled.div`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+`;
+
+const Evolution = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 4rem;
   color: gray;
+`;
+const Label = styled.label`
+  color: darkgrey;
 `;
 
 const Pokemon = styled.button`
@@ -53,7 +63,10 @@ const PokemonEvolution = ({ evolution }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!evolution.chain.evolves_to.length) return;
+    if (!evolution.chain.evolves_to.length) {
+      setLoading(false);
+      return;
+    }
 
     const names = [];
     let cur = evolution.chain;
@@ -81,25 +94,28 @@ const PokemonEvolution = ({ evolution }) => {
   if (loading) return <Spinner />;
 
   return (
-    <EvolutionWrapper>
-      {chain
-        .map(pokemon => (
-          <Pokemon
-            key={pokemon.id}
-            onClick={() => changeSelected(pokemon.name)}
-            disabled={pokemon.name === pokemons.data[selected].name}
-          >
-            <img
-              src={pokemon.sprites.front_default ?? pokemonWithoutSprite}
-              alt={pokemon.name}
-              title={pokemon.name}
-            />
-          </Pokemon>
-        ))
-        .map((e, i) =>
-          i < chain.length - 1 ? [e, <NavigateNext key={i} />] : [e]
-        )}
-    </EvolutionWrapper>
+    <Wrapper>
+      <Label>{chain.length ? 'Evolution' : ''}</Label>
+      <Evolution>
+        {chain
+          .map(pokemon => (
+            <Pokemon
+              key={pokemon.id}
+              onClick={() => changeSelected(pokemon.name)}
+              disabled={pokemon.name === pokemons.data[selected].name}
+            >
+              <img
+                src={pokemon.sprites.front_default ?? pokemonWithoutSprite}
+                alt={pokemon.name}
+                title={pokemon.name}
+              />
+            </Pokemon>
+          ))
+          .map((e, i) =>
+            i < chain.length - 1 ? [e, <NavigateNext key={i} />] : [e]
+          )}
+      </Evolution>
+    </Wrapper>
   );
 };
 
