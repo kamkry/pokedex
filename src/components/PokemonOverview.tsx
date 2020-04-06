@@ -7,6 +7,7 @@ import usePokemonInfo from '../hooks/usePokemonInfo';
 import Spinner from './Spinner';
 import PokemonTypeBadge from './PokemonTypeBadge';
 import PokemonMeasurement from './PokemonMeasurement';
+import PokemonStats from './PokemonStats';
 
 const Box = styled.section`
   grid-area: 3/4/3/7;
@@ -89,6 +90,8 @@ const PokemonOverview: React.FC = () => {
         <VerticalDivider />
         <PokemonMeasurement name="weight" value={`${pokemon.weight / 10}kg`} />
       </CenterWrapper>
+
+      <PokemonStats stats={pokemon.stats} />
     </Box>
   );
 };
