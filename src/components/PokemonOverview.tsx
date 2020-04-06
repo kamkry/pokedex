@@ -1,7 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
-import { PokemonContext } from '../contexts/PokemonContext';
+import { IconButton as IconButtonBase } from '@material-ui/core';
+import { NavigateBefore, NavigateNext } from '@material-ui/icons';
+import usePokemonInfo from '../hooks/usePokemonInfo';
+import Spinner from './Spinner';
 
 const Box = styled.section`
   grid-area: 3/4/3/7;
@@ -13,31 +15,42 @@ const Box = styled.section`
 `;
 
 const PokemonImg = styled.img`
-  margin-top: 1rem;
   image-rendering: pixelated;
   transform: scale(2);
+  margin: 1rem 3rem 0;
+`;
+
+const HeaderWrapper = styled.header`
+  display: flex;
+  align-items: center;
+`;
+
+const IconButton = styled(IconButtonBase)`
+  z-index: 1;
 `;
 
 const PokemonOverview: React.FC = () => {
-  const pokemons = useContext(PokemonContext);
-  const [selected, setSelected] = useContext(SelectedPokemonContext);
+  const [pokemon, loading, previous, next] = usePokemonInfo();
 
-  const next = () => {
-    if (selected < pokemons.data.length) {
-      setSelected(i => i + 1);
-    }
-  };
-  const previous = () => {
-    if (selected > 0) {
-      setSelected(i => i + 1);
-    }
-  };
-  console.log(pokemons.data[selected]);
+  if (loading) {
+    return (
+      <Box>
+        <Spinner />
+      </Box>
+    );
+  }
+
   return (
     <Box>
-      <button onClick={previous}>prev</button>
-      <button onClick={next}>next</button>
-      <PokemonImg src={selected?.sprites?.front_default} />
+      <HeaderWrapper>
+        <IconButton onClick={previous}>
+          <NavigateBefore />
+        </IconButton>
+        <PokemonImg src={!loading && pokemon.sprites.front_default} />
+        <IconButton onClick={next}>
+          <NavigateNext />
+        </IconButton>
+      </HeaderWrapper>
     </Box>
   );
 };
