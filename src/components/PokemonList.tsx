@@ -46,7 +46,8 @@ const Pokemon = styled.div<{ selected: boolean }>`
   :active {
     filter: brightness(0.5);
   }
-  background-color: ${({ selected }) => (selected ? 'red' : 'transparent')};
+  background-color: ${({ selected }) =>
+    selected ? 'rgba(184,184,184,0.71)' : 'transparent'};
 `;
 const PokemonImg = styled.img`
   transform: scale(0.6);
