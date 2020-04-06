@@ -1,10 +1,12 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import PokemonOverview from 'components/PokemonOverview';
 import { PokemonProvider } from 'contexts/PokemonContext';
 import pokedexLogo from 'assets/pokedex.png';
 import PokemonList from 'components/PokemonList';
 import { SelectedPokemonProvider } from 'contexts/SelectedPokemonContext';
+import { darkTheme, lightTheme } from 'theme';
+import { StylesProvider } from '@material-ui/core';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after{
@@ -17,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f5f5f5;
+    background-color: ${({ theme }) => theme.backgroundAccent};
     font-family: Roboto, sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
@@ -51,29 +53,31 @@ const LogoImg = styled.img`
 `;
 
 const Footer = styled.footer`
-  color: darkgrey;
+  color: ${({ theme }) => theme.textAccent};
   grid-area: 4/1/4/3;
 `;
 
 const App: React.FC = () => {
   return (
-    <>
-      <GlobalStyle />
-      <Center>
-        <MainContainer>
-          <Logo>
-            <LogoImg src={pokedexLogo} alt="Logo" />
-          </Logo>
-          <PokemonProvider>
-            <SelectedPokemonProvider>
-              <PokemonList />
-              <PokemonOverview />
-            </SelectedPokemonProvider>
-          </PokemonProvider>
-          <Footer>By Kamil Krysiak</Footer>
-        </MainContainer>
-      </Center>
-    </>
+    <StylesProvider injectFirst>
+      <ThemeProvider theme={lightTheme}>
+        <GlobalStyle />
+        <Center>
+          <MainContainer>
+            <Logo>
+              <LogoImg src={pokedexLogo} alt="Logo" />
+            </Logo>
+            <PokemonProvider>
+              <SelectedPokemonProvider>
+                <PokemonList />
+                <PokemonOverview />
+              </SelectedPokemonProvider>
+            </PokemonProvider>
+            <Footer>By Kamil Krysiak</Footer>
+          </MainContainer>
+        </Center>
+      </ThemeProvider>
+    </StylesProvider>
   );
 };
 

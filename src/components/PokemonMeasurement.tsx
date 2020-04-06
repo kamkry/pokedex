@@ -8,10 +8,11 @@ const MeasurementWrapper = styled.div`
   min-width: 6rem;
 `;
 const MeasurementLabel = styled.label`
-  color: #ababab;
+  color: ${({ theme }) => theme.textAccent};
   font-size: 1.2rem;
 `;
 const MeasurementValue = styled.div`
+  color: ${({ theme }) => theme.text};
   font-size: 2rem;
 `;
 

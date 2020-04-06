@@ -9,7 +9,7 @@ import Spinner from './Spinner';
 
 const Box = styled.section`
   grid-area: 3/1/3/4;
-  background-color: white;
+  background-color: ${({ theme }) => theme.background};
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -35,8 +35,8 @@ const Pokemon = styled.button<{ selected: boolean }>`
   border: none;
   margin: 0;
   border-radius: 50%;
-  background-color: ${({ selected }) =>
-  selected ? 'rgba(213,213,213,0.71)' : 'transparent'};
+  background-color: ${({ theme, selected }) =>
+    selected ? theme.select : 'transparent'};
   transition: background-color 0.1s ease-out, transform 0.1s ease-out;
 
   :hover {
@@ -55,7 +55,7 @@ const Pokemon = styled.button<{ selected: boolean }>`
   }
   :focus {
     transform: scale(${({ selected }) => (selected ? 1 : 1.5)});
-    background-color: #a1deff;
+    background-color: ${({ theme }) => theme.focus};
     outline: none;
     z-index: 1;
   }

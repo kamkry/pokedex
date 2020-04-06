@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-const useWaitForStopTyping = (input: string) => {
+const useWaitForStopTyping = (input: string): string => {
   const [readyInput, setReadyInput] = useState('');
   const timeoutRef = useRef(null as any);
   useEffect(() => {

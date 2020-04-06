@@ -12,7 +12,7 @@ import PokemonEvolution from 'components/PokemonEvolution';
 
 const Box = styled.section`
   grid-area: 3/4/3/7;
-  background-color: white;
+  background-color: ${({ theme }) => theme.background};
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -33,24 +33,32 @@ const CenterWrapper = styled.header`
 
 const IconButton = styled(IconButtonBase)`
   z-index: 1;
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.text};
+  :hover {
+    background-color: ${({ theme }) => theme.backgroundAccent};
+  }
 `;
 
 const Id = styled.span`
-  color: gray;
+  color: ${({ theme }) => theme.textAccent};
   margin-right: 0.5rem;
 `;
 
 const Name = styled.h2`
   font-weight: normal;
   z-index: 1;
-  background-color: rgba(255, 255, 255, 0.9);
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.background};
+  opacity: 90%;
 `;
 
 const VerticalDivider = styled.span`
-  background-color: #dadada;
+  background-color: ${({ theme }) => theme.text};
   width: 1px;
   height: 100%;
   margin: 0 1rem;
+  opacity: 20%;
 `;
 
 const PokemonOverview: React.FC = () => {
@@ -66,15 +74,14 @@ const PokemonOverview: React.FC = () => {
   return (
     <Box>
       <CenterWrapper>
-        <IconButton onClick={previous}>
+        <IconButton onClick={previous} aria-label="Previous pokemon">
           <NavigateBefore />
         </IconButton>
         <PokemonImg
-          src={
-            !loading && (pokemon.sprites.front_default ?? pokemonWithoutSprite)
-          }
+          src={pokemon.sprites.front_default ?? pokemonWithoutSprite}
+          alt={pokemon.name}
         />
-        <IconButton onClick={next}>
+        <IconButton onClick={next} aria-label="Next pokemon">
           <NavigateNext />
         </IconButton>
       </CenterWrapper>

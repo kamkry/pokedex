@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
 import { NavigateNext } from '@material-ui/icons';
-import { API_URL } from 'index';
 import { SelectedPokemonContext } from 'contexts/SelectedPokemonContext';
 import { PokemonContext } from 'contexts/PokemonContext';
 import usePokemonEvolution from 'hooks/usePokemonEvolution';
@@ -16,14 +15,14 @@ const Wrapper = styled.div`
   margin-top: 2rem;
 `;
 
-const Evolution = styled.div`
+const EvolutionChain = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: gray;
+  color: ${({theme}) => theme.textAccent};
 `;
 const Label = styled.label`
-  color: darkgrey;
+  color: gray;
 `;
 
 const Pokemon = styled.button`
@@ -52,7 +51,7 @@ const Pokemon = styled.button`
       border-left: 0.5rem solid transparent;
       border-right: 0.5rem solid transparent;
 
-      border-bottom: 0.5rem solid darkgrey;
+      border-bottom: 0.5rem solid ${({theme}) => theme.textAccent};
     }
   }
 `;
@@ -75,7 +74,7 @@ const PokemonEvolution: React.FC<PokemonEvolutionProps> = ({ evolution }) => {
   return (
     <Wrapper>
       <Label>{chain && 'Evolution'}</Label>
-      <Evolution>
+      <EvolutionChain>
         {chain
           .map(pokemon => (
             <Pokemon
@@ -93,7 +92,7 @@ const PokemonEvolution: React.FC<PokemonEvolutionProps> = ({ evolution }) => {
           .map((e, i) =>
             i < chain.length - 1 ? [e, <NavigateNext key={i} />] : [e]
           )}
-      </Evolution>
+      </EvolutionChain>
     </Wrapper>
   );
 };

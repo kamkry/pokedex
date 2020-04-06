@@ -29,12 +29,12 @@ const usePokemonInfo = () => {
     })();
   }, [pokemons, selectedIndex]);
 
-  const previous = () => {
+  const previous = (): void => {
     if (selectedIndex > 0) {
       setSelectedIndex(i => i - 1);
     }
   };
-  const next = () => {
+  const next = (): void => {
     if (selectedIndex < pokemons.data.length) {
       setSelectedIndex(i => i + 1);
     }

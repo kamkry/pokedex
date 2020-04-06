@@ -2,12 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Pagination as PaginationBase } from '@material-ui/lab';
 import { PokemonContext } from 'contexts/PokemonContext';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-
-export const PAGE_SIZE = 56;
-
-export const getPage = (data: any[], page: number) => {
-  return data.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
-};
+import { getPage, PAGE_SIZE } from 'helpers/pagination';
+import styled from 'styled-components';
 
 export const getPokemonProperties = (list: any[]) => {
   const promises = list.map((pokemon: any) => {
@@ -18,11 +14,19 @@ export const getPokemonProperties = (list: any[]) => {
   return Promise.all(promises) as Promise<any>;
 };
 
+const StyledPagination = styled(PaginationBase)`
+  & * {
+    color: ${({ theme }) => theme.textAccent};
+  }
+`;
+
 interface PaginationProps {
   disabled: boolean;
 }
 
-const usePokemonPagination = (filter: string) => {
+type usePokemonPaginationReturn = [React.FC<PaginationProps>, any, number];
+
+const usePokemonPagination = (filter: string): usePokemonPaginationReturn => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pokemonPage, setPokemonPage] = useState([]);
   const [pageCount, setPageCount] = useState(1);
@@ -54,7 +58,7 @@ const usePokemonPagination = (filter: string) => {
 
   const Pagination: React.FC<PaginationProps> = ({ disabled }) => (
     <ThemeProvider theme={theme}>
-      <PaginationBase
+      <StyledPagination
         defaultPage={1}
         count={pageCount}
         color="secondary"
@@ -65,11 +69,7 @@ const usePokemonPagination = (filter: string) => {
     </ThemeProvider>
   );
 
-  return [Pagination, pokemonPage, pageSize] as [
-    React.FC<PaginationProps>,
-    any,
-    number
-  ];
+  return [Pagination, pokemonPage, pageSize];
 };
 
 export default usePokemonPagination;

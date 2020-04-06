@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { API_URL } from 'index';
 
+const processChain = (chain: any): Promise<any>[] => {
+  const names = [];
+  let cur = chain;
+  while (cur.evolves_to.length) {
+    names.push(cur.species.name);
+    cur = cur.evolves_to[0];
+  }
+  names.push(cur.species.name);
+
+  return names.map(name => {
+    return fetch(`${API_URL}/pokemon/${name}`).then(res => res.json());
+  });
+};
+
 const usePokemonEvolution = (evolution: any) => {
   const [chain, setChain] = useState([] as any[]);
   const [loading, setLoading] = useState(true);
@@ -11,24 +25,12 @@ const usePokemonEvolution = (evolution: any) => {
       return;
     }
 
-    const names = [];
-    let cur = evolution.chain;
-    while (cur.evolves_to.length) {
-      names.push(cur.species.name);
-      // eslint-disable-next-line prefer-destructuring
-      cur = cur.evolves_to[0];
-    }
-    names.push(cur.species.name);
-
-    const promises = names.map(name => {
-      return fetch(`${API_URL}/pokemon/${name}`).then(res => res.json());
-    });
-
-    Promise.all(promises).then(res => {
+    const processedChain = processChain(evolution.chain);
+    Promise.all(processedChain).then(res => {
       setChain(res);
       setLoading(false);
     });
-  }, []);
+  }, [evolution.chain]);
 
   return [chain, loading] as [any[], boolean];
 };

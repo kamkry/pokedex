@@ -21,12 +21,13 @@ const Stat = styled.div`
 `;
 
 const Label = styled.label`
-  color: darkgrey;
+  color: ${({ theme }) => theme.textAccent};
   margin-right: 1rem;
   font-size: 1.4rem;
 `;
 const Value = styled.span`
   font-size: 2rem;
+  color: ${({ theme }) => theme.text};
 `;
 
 interface PokemonStatsProps {
