@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { IconButton as IconButtonBase } from '@material-ui/core';
 import { NavigateBefore, NavigateNext } from '@material-ui/icons';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
-import usePokemonInfo from '../hooks/usePokemonInfo';
-import Spinner from './Spinner';
-import PokemonTypeBadge from './PokemonTypeBadge';
-import PokemonMeasurement from './PokemonMeasurement';
-import PokemonStats from './PokemonStats';
-import PokemonEvolution from './PokemonEvolution';
+import usePokemonInfo from 'hooks/usePokemonInfo';
+import Spinner from 'components/Spinner';
+import PokemonTypeBadge from 'components/PokemonTypeBadge';
+import PokemonMeasurement from 'components/PokemonMeasurement';
+import PokemonStats from 'components/PokemonStats';
+import PokemonEvolution from 'components/PokemonEvolution';
 
 const Box = styled.section`
   grid-area: 3/4/3/7;
@@ -85,14 +85,14 @@ const PokemonOverview: React.FC = () => {
       <CenterWrapper>
         <PokemonMeasurement name="height" value={`${pokemon.height / 10}m`} />
         <VerticalDivider />
-        {pokemon.types.map(t => (
+        {pokemon.types.map((t: any) => (
           <PokemonTypeBadge key={t.slot} name={t.type.name} />
         ))}
         <VerticalDivider />
         <PokemonMeasurement name="weight" value={`${pokemon.weight / 10}kg`} />
       </CenterWrapper>
       <PokemonStats stats={pokemon.stats} />
-      <PokemonEvolution evolution={pokemon.evolution}/>
+      <PokemonEvolution evolution={pokemon.evolution} />
     </Box>
   );
 };

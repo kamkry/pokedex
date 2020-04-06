@@ -1,6 +1,15 @@
-import React, { createContext, useState } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useState,
+} from 'react';
 
-export const SelectedPokemonContext = createContext(null);
+type SelectedPokemonContextValue = [number, Dispatch<SetStateAction<number>>];
+
+export const SelectedPokemonContext = createContext<
+  SelectedPokemonContextValue
+>({} as SelectedPokemonContextValue);
 
 export const SelectedPokemonProvider: React.FC = ({ children }) => {
   const [selected, setSelected] = useState(0);

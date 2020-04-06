@@ -4,10 +4,7 @@ import PokemonOverview from 'components/PokemonOverview';
 import { PokemonProvider } from 'contexts/PokemonContext';
 import pokedexLogo from 'assets/pokedex.png';
 import PokemonList from 'components/PokemonList';
-import {
-  SelectedPokemonContext,
-  SelectedPokemonProvider,
-} from './contexts/SelectedPokemonContext';
+import { SelectedPokemonProvider } from 'contexts/SelectedPokemonContext';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after{

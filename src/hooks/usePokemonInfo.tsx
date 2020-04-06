@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { PokemonContext } from '../contexts/PokemonContext';
-import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
+import { PokemonContext } from 'contexts/PokemonContext';
+import { SelectedPokemonContext } from 'contexts/SelectedPokemonContext';
 
 const usePokemonInfo = () => {
   const pokemons = useContext(PokemonContext);
   const [selectedIndex, setSelectedIndex] = useContext(SelectedPokemonContext);
-  const [selectedInfo, setSelectedInfo] = useState(null);
+  const [selectedInfo, setSelectedInfo] = useState(null as any);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,11 +19,11 @@ const usePokemonInfo = () => {
 
       const speciesRes = await fetch(info.species.url);
       const species = await speciesRes.json();
-      setSelectedInfo(p => ({ ...p, species }));
+      setSelectedInfo((p: any) => ({ ...p, species }));
 
       const evolutionRes = await fetch(species.evolution_chain.url);
       const evolution = await evolutionRes.json();
-      setSelectedInfo(p => ({ ...p, evolution }));
+      setSelectedInfo((p: any) => ({ ...p, evolution }));
 
       setLoading(false);
     })();

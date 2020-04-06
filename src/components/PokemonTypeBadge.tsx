@@ -6,8 +6,11 @@ const Badge = styled.img`
   transform: scale(1.75);
   padding: 0 1.5rem;
 `;
+interface PokemonTypeBadgeProps {
+  name: string;
+}
 
-const PokemonTypeBadge = ({ name }) => {
+const PokemonTypeBadge: React.FC<PokemonTypeBadgeProps> = ({ name }) => {
   const [image, setImage] = useState();
 
   const loadImage = useCallback(async () => {

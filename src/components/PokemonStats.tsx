@@ -29,7 +29,11 @@ const Value = styled.span`
   font-size: 2rem;
 `;
 
-const PokemonStats = ({ stats }) => {
+interface PokemonStatsProps {
+  stats: any[];
+}
+
+const PokemonStats: React.FC<PokemonStatsProps> = ({ stats }) => {
   return (
     <Stats>
       <Stat>

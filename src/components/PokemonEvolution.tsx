@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
 import { NavigateNext } from '@material-ui/icons';
-import { API_URL } from '../index';
-import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
-import { PokemonContext } from '../contexts/PokemonContext';
+import { API_URL } from 'index';
+import { SelectedPokemonContext } from 'contexts/SelectedPokemonContext';
+import { PokemonContext } from 'contexts/PokemonContext';
 import Spinner from './Spinner';
 
 const Wrapper = styled.div`
@@ -56,8 +56,12 @@ const Pokemon = styled.button`
   }
 `;
 
-const PokemonEvolution = ({ evolution }) => {
-  const [chain, setChain] = useState([]);
+interface PokemonEvolutionProps {
+  evolution: any;
+}
+
+const PokemonEvolution: React.FC<PokemonEvolutionProps> = ({ evolution }) => {
+  const [chain, setChain] = useState([] as any[]);
   const pokemons = useContext(PokemonContext);
   const [selected, setSelected] = useContext(SelectedPokemonContext);
   const [loading, setLoading] = useState(true);
@@ -87,7 +91,7 @@ const PokemonEvolution = ({ evolution }) => {
     });
   }, [evolution.chain, evolution.evolves_to]);
 
-  const changeSelected = name => {
+  const changeSelected = (name: string) => {
     setSelected(pokemons.data.find(p => p.name === name).index);
   };
 

@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
+import { SelectedPokemonContext } from 'contexts/SelectedPokemonContext';
+import usePokemonPagination from 'hooks/usePokemonPagination';
+import useWaitForStopTyping from 'hooks/useWaitForStopTyping';
 import Search from './Search';
-import usePokemonPagination from '../hooks/usePokemonPagination';
 import Spinner from './Spinner';
-import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
 
 const Box = styled.section`
   grid-area: 3/1/3/4;
@@ -53,8 +54,10 @@ const Pokemon = styled.button<{ selected: boolean }>`
     pointer-events: none;
   }
   :focus {
-    box-shadow: 0 0 0 0.2rem #00a7dd;
+    transform: scale(${({ selected }) => (selected ? 1 : 1.5)});
+    background-color: #b0d4ee;
     outline: none;
+    z-index: 1;
   }
 `;
 const PokemonImg = styled.img`
@@ -65,36 +68,21 @@ const Hover = styled.div`
 `;
 
 const PokemonList: React.FC = () => {
-  const [filter, setFilter] = useState('');
-  const [readyFilter, setReadyFilter] = useState('');
   const [loading, setLoading] = useState(0);
-  const timeoutRef = useRef(null);
-
+  const [filter, setFilter] = useState('');
+  const readyFilter = useWaitForStopTyping(filter);
+  const [Pagination, pokemonPage, pageSize] = usePokemonPagination(readyFilter);
   const [selected, setSelected] = useContext(SelectedPokemonContext);
-  const { Pagination, pokemonPage, pageSize } = usePokemonPagination(
-    readyFilter
-  );
 
   const isLoading = loading < pageSize - 1;
 
   useEffect(() => {
-    if (timeoutRef.current !== null) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(() => {
-      timeoutRef.current = null;
-      setReadyFilter(filter);
-    }, 500);
-  }, [filter]);
-
-  useEffect(() => {
     setLoading(0);
-  }, [pokemonPage]);
+  }, [pokemonPage, filter]);
 
   return (
     <>
       <Search value={filter} onChange={e => setFilter(e.target.value)} />
-
       <Box>
         {isLoading ? <Spinner /> : null}
         <Grid
@@ -102,7 +90,7 @@ const PokemonList: React.FC = () => {
             display: isLoading ? 'none' : 'grid',
           }}
         >
-          {pokemonPage?.map((pokemon, i) => (
+          {pokemonPage?.map((pokemon: any, i: number) => (
             <Pokemon
               key={i}
               tabIndex={0}

@@ -14,7 +14,16 @@ const MeasurementLabel = styled.label`
 const MeasurementValue = styled.div`
   font-size: 2rem;
 `;
-const PokemonMeasurement = ({ name, value }) => {
+
+interface PokemonMeasurementProps {
+  name: string;
+  value: string;
+}
+
+const PokemonMeasurement: React.FC<PokemonMeasurementProps> = ({
+  name,
+  value,
+}) => {
   return (
     <MeasurementWrapper>
       <MeasurementLabel>{name}</MeasurementLabel>

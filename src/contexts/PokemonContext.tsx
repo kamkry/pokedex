@@ -1,5 +1,5 @@
 import React, { useEffect, createContext, useState } from 'react';
-import { API_URL } from '../index';
+import { API_URL } from 'index';
 
 interface Result {
   loading: boolean;
@@ -21,7 +21,7 @@ export const PokemonProvider: React.FC = ({ children }) => {
       .then(res => {
         setResult({
           loading: false,
-          data: res.results.map((p, i) => ({ ...p, index: i })),
+          data: res.results.map((p: any, i: any) => ({ ...p, index: i })),
         });
       });
   };
