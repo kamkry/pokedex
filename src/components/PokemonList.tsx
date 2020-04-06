@@ -24,6 +24,7 @@ const Grid = styled.div`
   min-height: 0;
   min-width: 0;
   height: 100%;
+  margin-bottom: 1rem;
 `;
 
 const Pokemon = styled.div`

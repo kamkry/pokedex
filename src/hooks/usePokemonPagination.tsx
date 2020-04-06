@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Pagination as PaginationBase } from '@material-ui/lab';
 import { PokemonContext } from 'contexts/PokemonContext';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
 export const PAGE_SIZE = 56;
 
@@ -38,14 +39,17 @@ const usePokemonPagination = filter => {
     });
   }, [currentPage, filter, pokemons]);
 
+  const theme = createMuiTheme({ typography: { htmlFontSize: 10 } });
   const Pagination = ({ disabled }) => (
-    <PaginationBase
-      count={pageCount}
-      color="secondary"
-      page={currentPage + 1}
-      onChange={(_e, page) => setCurrentPage(page - 1)}
-      disabled={disabled}
-    />
+    <ThemeProvider theme={theme}>
+      <PaginationBase
+        count={pageCount}
+        color="secondary"
+        page={currentPage + 1}
+        onChange={(_e, page) => setCurrentPage(page - 1)}
+        disabled={disabled}
+      />
+    </ThemeProvider>
   );
 
   return { Pagination, pokemonPage, pageSize };
