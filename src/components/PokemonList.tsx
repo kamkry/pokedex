@@ -20,8 +20,8 @@ const Box = styled.section`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-rows: repeat(8, 1fr);
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-gap: 0.5rem;
   min-height: 0;
   min-width: 0;
@@ -47,7 +47,7 @@ const Pokemon = styled.button<{ selected: boolean }>`
   }
   & > img {
     position: absolute;
-    transform: scale(1.5);
+    transform: scale(1.3);
     width: 100%;
     left: 0;
     top: 0;

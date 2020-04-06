@@ -5,7 +5,7 @@ import { PokemonProvider } from 'contexts/PokemonContext';
 import pokedexLogo from 'assets/pokedex.png';
 import PokemonList from 'components/PokemonList';
 import { SelectedPokemonProvider } from 'contexts/SelectedPokemonContext';
-import { darkTheme, lightTheme } from 'theme';
+import { lightTheme } from 'theme';
 import { StylesProvider } from '@material-ui/core';
 
 const GlobalStyle = createGlobalStyle`
@@ -36,7 +36,7 @@ const Center = styled.div`
 const MainContainer = styled.main`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: 100px 150px 150px 150px 150px 100px;
+  grid-template-columns: 150px 100px 150px 150px 100px 150px;
   grid-template-rows: 50px 50px 550px 100px;
 `;
 
