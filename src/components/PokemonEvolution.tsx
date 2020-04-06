@@ -5,6 +5,7 @@ import { NavigateNext } from '@material-ui/icons';
 import { API_URL } from 'index';
 import { SelectedPokemonContext } from 'contexts/SelectedPokemonContext';
 import { PokemonContext } from 'contexts/PokemonContext';
+import usePokemonEvolution from 'hooks/usePokemonEvolution';
 import Spinner from './Spinner';
 
 const Wrapper = styled.div`
@@ -61,35 +62,9 @@ interface PokemonEvolutionProps {
 }
 
 const PokemonEvolution: React.FC<PokemonEvolutionProps> = ({ evolution }) => {
-  const [chain, setChain] = useState([] as any[]);
-  const pokemons = useContext(PokemonContext);
   const [selected, setSelected] = useContext(SelectedPokemonContext);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!evolution.chain.evolves_to.length) {
-      setLoading(false);
-      return;
-    }
-
-    const names = [];
-    let cur = evolution.chain;
-    while (cur.evolves_to.length) {
-      names.push(cur.species.name);
-      // eslint-disable-next-line prefer-destructuring
-      cur = cur.evolves_to[0];
-    }
-    names.push(cur.species.name);
-
-    const promises = names.map(name => {
-      return fetch(`${API_URL}/pokemon/${name}`).then(res => res.json());
-    });
-
-    Promise.all(promises).then(res => {
-      setChain(res);
-      setLoading(false);
-    });
-  }, [evolution.chain, evolution.evolves_to]);
+  const pokemons = useContext(PokemonContext);
+  const [chain, loading] = usePokemonEvolution(evolution);
 
   const changeSelected = (name: string) => {
     setSelected(pokemons.data.find(p => p.name === name).index);

@@ -36,7 +36,7 @@ const Pokemon = styled.button<{ selected: boolean }>`
   margin: 0;
   border-radius: 50%;
   background-color: ${({ selected }) =>
-    selected ? 'rgba(213,213,213,0.71)' : 'transparent'};
+  selected ? 'rgba(213,213,213,0.71)' : 'transparent'};
   transition: background-color 0.1s ease-out, transform 0.1s ease-out;
 
   :hover {
@@ -55,7 +55,7 @@ const Pokemon = styled.button<{ selected: boolean }>`
   }
   :focus {
     transform: scale(${({ selected }) => (selected ? 1 : 1.5)});
-    background-color: #b0d4ee;
+    background-color: #a1deff;
     outline: none;
     z-index: 1;
   }
