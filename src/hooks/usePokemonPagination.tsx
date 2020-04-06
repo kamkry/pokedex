@@ -30,6 +30,7 @@ const usePokemonPagination = filter => {
   }, [filter]);
 
   useEffect(() => {
+    setPokemonPage([]);
     const filtered = pokemons.data.filter(({ name }) => name.includes(filter));
 
     setPageCount(
