@@ -60,6 +60,7 @@ const usePokemonPagination = (filter: string): usePokemonPaginationReturn => {
     <ThemeProvider theme={theme}>
       <StyledPagination
         defaultPage={1}
+        siblingCount={0}
         count={pageCount}
         color="secondary"
         page={currentPage + 1}

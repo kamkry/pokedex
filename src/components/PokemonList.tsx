@@ -4,6 +4,7 @@ import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
 import { SelectedPokemonContext } from 'contexts/SelectedPokemonContext';
 import usePokemonPagination from 'hooks/usePokemonPagination';
 import useWaitForStopTyping from 'hooks/useWaitForStopTyping';
+import { ShowOverviewContext } from 'contexts/ShowOverviewContext';
 import Search from './Search';
 import Spinner from './Spinner';
 
@@ -16,6 +17,10 @@ const Box = styled.section`
   justify-content: space-between;
   align-items: center;
   -webkit-backface-visibility: hidden;
+
+  @media (max-width: 960px) {
+    grid-area: 3/1/3/1;
+  }
 `;
 
 const Grid = styled.div`
@@ -38,6 +43,7 @@ const Pokemon = styled.button<{ selected: boolean }>`
   background-color: ${({ theme, selected }) =>
     selected ? theme.select : 'transparent'};
   transition: background-color 0.1s ease-out, transform 0.1s ease-out;
+  max-width: 65px;
 
   :hover {
     z-index: 1;
@@ -73,6 +79,7 @@ const PokemonList: React.FC = () => {
   const readyFilter = useWaitForStopTyping(filter);
   const [Pagination, pokemonPage, pageSize] = usePokemonPagination(readyFilter);
   const [selected, setSelected] = useContext(SelectedPokemonContext);
+  const [, setShowOverview] = useContext(ShowOverviewContext);
 
   const isLoading = loading < pageSize - 1;
 
@@ -82,7 +89,13 @@ const PokemonList: React.FC = () => {
 
   return (
     <>
-      <Search value={filter} onChange={e => setFilter(e.target.value)} />
+      <Search
+        value={filter}
+        onChange={e => {
+          setFilter(e.target.value);
+          setShowOverview(false);
+        }}
+      />
       <Box>
         {isLoading ? <Spinner /> : null}
         <Grid
@@ -96,6 +109,7 @@ const PokemonList: React.FC = () => {
               tabIndex={0}
               onClick={() => {
                 setSelected(pokemon.index);
+                setShowOverview(true);
               }}
               selected={selected === pokemon.index}
               disabled={selected === pokemon.index}

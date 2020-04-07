@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { IconButton as IconButtonBase } from '@material-ui/core';
 import { NavigateBefore, NavigateNext } from '@material-ui/icons';
@@ -9,8 +9,10 @@ import PokemonTypeBadge from 'components/PokemonTypeBadge';
 import PokemonMeasurement from 'components/PokemonMeasurement';
 import PokemonStats from 'components/PokemonStats';
 import PokemonEvolution from 'components/PokemonEvolution';
+import { ShowOverviewContext } from 'contexts/ShowOverviewContext';
+import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
 
-const Box = styled.section`
+const Box = styled.section<{ show: boolean }>`
   grid-area: 3/4/3/7;
   background-color: ${({ theme }) => theme.background};
   padding: 1rem;
@@ -18,6 +20,22 @@ const Box = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
+  @media (max-width: 960px) {
+    grid-area: 3/1/3/1;
+    z-index: 1;
+    overflow: hidden;
+    display: ${({ show }) => (show ? 'flex' : 'none')};
+  }
+`;
+
+const ScrollBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 500px) {
+    overflow-y: scroll;
+  }
 `;
 
 const PokemonImg = styled.img`
@@ -28,6 +46,7 @@ const PokemonImg = styled.img`
 
 const CenterWrapper = styled.header`
   display: flex;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -61,18 +80,36 @@ const VerticalDivider = styled.span`
   opacity: 20%;
 `;
 
+const ReturnButton = styled.button`
+  position: absolute;
+  left: 0;
+  transform: translateX(50%);
+  display: none;
+  z-index: 1;
+  @media (max-width: 960px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
 const PokemonOverview: React.FC = () => {
   const [pokemon, loading, previous, next] = usePokemonInfo();
+  const [show, setShow] = useContext(ShowOverviewContext);
 
   if (loading) {
     return (
-      <Box>
+      <Box show={show}>
         <Spinner />
       </Box>
     );
   }
   return (
-    <Box>
+    <Box show={show}>
+      <ReturnButton onClick={() => setShow(false)}>
+        <NavigateBefore />
+        Go back
+      </ReturnButton>
       <CenterWrapper>
         <IconButton onClick={previous} aria-label="Previous pokemon">
           <NavigateBefore />
@@ -89,17 +126,22 @@ const PokemonOverview: React.FC = () => {
         <Id>{`#${pokemon.id}`}</Id>
         {pokemon.name}
       </Name>
-      <CenterWrapper>
-        <PokemonMeasurement name="height" value={`${pokemon.height / 10}m`} />
-        <VerticalDivider />
-        {pokemon.types.map((t: any) => (
-          <PokemonTypeBadge key={t.slot} name={t.type.name} />
-        ))}
-        <VerticalDivider />
-        <PokemonMeasurement name="weight" value={`${pokemon.weight / 10}kg`} />
-      </CenterWrapper>
-      <PokemonStats stats={pokemon.stats} />
-      <PokemonEvolution evolution={pokemon.evolution} />
+      <ScrollBox>
+        <CenterWrapper>
+          <PokemonMeasurement name="height" value={`${pokemon.height / 10}m`} />
+          <VerticalDivider />
+          {pokemon.types.map((t: any) => (
+            <PokemonTypeBadge key={t.slot} name={t.type.name} />
+          ))}
+          <VerticalDivider />
+          <PokemonMeasurement
+            name="weight"
+            value={`${pokemon.weight / 10}kg`}
+          />
+        </CenterWrapper>
+        <PokemonStats stats={pokemon.stats} />
+        <PokemonEvolution evolution={pokemon.evolution} />
+      </ScrollBox>
     </Box>
   );
 };

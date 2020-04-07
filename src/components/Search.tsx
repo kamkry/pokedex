@@ -8,6 +8,10 @@ const Bar = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
+  @media (max-width: 960px) {
+    grid-area: 2/1/2/1;
+  }
 `;
 const Input = styled.input`
   height: 100%;
@@ -33,7 +37,7 @@ interface SearchProps {
 const Search: React.FC<SearchProps> = ({ value, onChange }) => {
   return (
     <Bar>
-      <StyledIcon/>
+      <StyledIcon />
       <Input
         aria-label="Find a pokemon"
         placeholder="Find a Pokémon..."

@@ -19,7 +19,11 @@ const EvolutionChain = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({theme}) => theme.textAccent};
+  color: ${({ theme }) => theme.textAccent};
+
+  @media (max-width: 350px) {
+    transform: scale(0.8);
+  }
 `;
 const Label = styled.label`
   color: gray;
@@ -51,7 +55,7 @@ const Pokemon = styled.button`
       border-left: 0.5rem solid transparent;
       border-right: 0.5rem solid transparent;
 
-      border-bottom: 0.5rem solid ${({theme}) => theme.textAccent};
+      border-bottom: 0.5rem solid ${({ theme }) => theme.textAccent};
     }
   }
 `;
