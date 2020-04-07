@@ -10,6 +10,7 @@ import PokemonMeasurement from 'components/PokemonMeasurement';
 import PokemonStats from 'components/PokemonStats';
 import PokemonEvolution from 'components/PokemonEvolution';
 import { ShowOverviewContext } from 'contexts/ShowOverviewContext';
+import { PokemonContext } from 'contexts/PokemonContext';
 import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
 
 const Box = styled.section<{ show: boolean }>`
@@ -96,6 +97,8 @@ const ReturnButton = styled.button`
 const PokemonOverview: React.FC = () => {
   const [pokemon, loading, previous, next] = usePokemonInfo();
   const [show, setShow] = useContext(ShowOverviewContext);
+  const [selected] = useContext(SelectedPokemonContext);
+  const pokemons = useContext(PokemonContext).data;
 
   if (loading) {
     return (
@@ -111,14 +114,22 @@ const PokemonOverview: React.FC = () => {
         Go back
       </ReturnButton>
       <CenterWrapper>
-        <IconButton onClick={previous} aria-label="Previous pokemon">
+        <IconButton
+          onClick={previous}
+          aria-label="Previous pokemon"
+          disabled={selected===0}
+        >
           <NavigateBefore />
         </IconButton>
         <PokemonImg
           src={pokemon.sprites.front_default ?? pokemonWithoutSprite}
           alt={pokemon.name}
         />
-        <IconButton onClick={next} aria-label="Next pokemon">
+        <IconButton
+          onClick={next}
+          aria-label="Next pokemon"
+          disabled={selected === pokemons[pokemons.length - 1].index}
+        >
           <NavigateNext />
         </IconButton>
       </CenterWrapper>
