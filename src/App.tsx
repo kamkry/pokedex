@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import PokemonOverview from 'components/PokemonOverview';
 import { PokemonProvider } from 'contexts/PokemonContext';
 import pokedexLogo from 'assets/pokedex.png';
 import PokemonList from 'components/PokemonList';
 import { SelectedPokemonProvider } from 'contexts/SelectedPokemonContext';
-import { lightTheme } from 'theme';
+import { lightTheme, darkTheme } from 'theme';
 import { StylesProvider } from '@material-ui/core';
 import { ShowOverviewProvider } from 'contexts/ShowOverviewContext';
+import ThemeSwitch from 'components/ThemeSwitch';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after{
@@ -24,6 +25,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: Roboto, sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
+    transition: background-color 0.2s linear;
   }
 `;
 
@@ -90,10 +92,12 @@ const Footer = styled.footer`
 `;
 
 const App: React.FC = () => {
+  const [isDark, setIsDark] = useState(false);
   return (
     <StylesProvider injectFirst>
-      <ThemeProvider theme={lightTheme}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
+        <ThemeSwitch checked={isDark} toggle={() => setIsDark(p => !p)} />
         <Center>
           <MainContainer>
             <Logo>

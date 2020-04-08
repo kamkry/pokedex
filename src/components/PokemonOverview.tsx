@@ -1,16 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
-import styled from 'styled-components';
 import { IconButton as IconButtonBase } from '@material-ui/core';
 import { NavigateBefore, NavigateNext } from '@material-ui/icons';
 import pokemonWithoutSprite from 'assets/pokemonWithoutSprite.png';
-import usePokemonInfo from 'hooks/usePokemonInfo';
-import Spinner from 'components/Spinner';
-import PokemonTypeBadge from 'components/PokemonTypeBadge';
+import PokemonEvolution from 'components/PokemonEvolution';
 import PokemonMeasurement from 'components/PokemonMeasurement';
 import PokemonStats from 'components/PokemonStats';
-import PokemonEvolution from 'components/PokemonEvolution';
-import { ShowOverviewContext } from 'contexts/ShowOverviewContext';
+import PokemonTypeBadge from 'components/PokemonTypeBadge';
+import Spinner from 'components/Spinner';
 import { PokemonContext } from 'contexts/PokemonContext';
+import { ShowOverviewContext } from 'contexts/ShowOverviewContext';
+import usePokemonInfo from 'hooks/usePokemonInfo';
+import React, { useContext } from 'react';
+import styled from 'styled-components';
 import { SelectedPokemonContext } from '../contexts/SelectedPokemonContext';
 
 const Box = styled.section<{ show: boolean }>`
@@ -24,6 +24,7 @@ const Box = styled.section<{ show: boolean }>`
 
   @media (max-width: 960px) {
     grid-area: 3/1/3/1;
+    position: relative;
     z-index: 1;
     overflow: hidden;
     display: ${({ show }) => (show ? 'flex' : 'none')};
@@ -81,16 +82,17 @@ const VerticalDivider = styled.span`
   opacity: 20%;
 `;
 
-const ReturnButton = styled.button`
+const ReturnButton = styled(IconButtonBase)`
   position: absolute;
   left: 0;
-  transform: translateX(50%);
   display: none;
   z-index: 1;
+  color: ${({ theme }) => theme.textAccent};
+
   @media (max-width: 960px) {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
 `;
 
@@ -117,7 +119,7 @@ const PokemonOverview: React.FC = () => {
         <IconButton
           onClick={previous}
           aria-label="Previous pokemon"
-          disabled={selected===0}
+          disabled={selected === 0}
         >
           <NavigateBefore />
         </IconButton>
