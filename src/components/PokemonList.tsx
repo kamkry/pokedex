@@ -85,7 +85,7 @@ const PokemonList: React.FC = () => {
 
   useEffect(() => {
     setLoading(0);
-  }, [pokemonPage, filter]);
+  }, [pokemonPage, readyFilter]);
 
   return (
     <>
