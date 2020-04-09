@@ -15,6 +15,15 @@ const CheckBoxLabel = styled.label`
   border-radius: 50%;
   background: ${({ theme }) => theme.background};
   cursor: pointer;
+
+  opacity: 1;
+  :hover {
+    opacity: 0.5;
+  }
+  :focus {
+    opacity: 0.2;
+    outline: azure;
+  }
 `;
 const CheckBox = styled.input`
   opacity: 0;
