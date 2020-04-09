@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { Pagination as PaginationBase } from '@material-ui/lab';
 import { PokemonContext } from 'contexts/PokemonContext';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { getPage, PAGE_SIZE } from 'helpers/pagination';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export const getPokemonProperties = (list: any[]) => {

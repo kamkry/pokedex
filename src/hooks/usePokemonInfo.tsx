@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PokemonContext } from 'contexts/PokemonContext';
 import { SelectedPokemonContext } from 'contexts/SelectedPokemonContext';
 

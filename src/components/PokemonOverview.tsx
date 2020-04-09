@@ -86,7 +86,7 @@ const ReturnButton = styled(IconButtonBase)`
   position: absolute;
   left: 0;
   display: none;
-  z-index: 1;
+  z-index: 2;
   color: ${({ theme }) => theme.textAccent};
 
   @media (max-width: 960px) {

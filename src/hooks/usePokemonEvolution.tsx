@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import { API_URL } from 'index';
+import { useEffect, useState } from 'react';
 
 const processChain = (chain: any): Promise<any>[] => {
   const names = [];

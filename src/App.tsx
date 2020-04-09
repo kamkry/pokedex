@@ -49,7 +49,7 @@ const MainContainer = styled.main`
   }
 
   @media (max-width: 500px) {
-    grid-template-rows: 60px 50px 70vmax 0;
+    grid-template-rows: 60px 50px 400px 0;
   }
 
   @media (max-width: 350px) {

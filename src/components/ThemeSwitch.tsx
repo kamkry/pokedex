@@ -47,7 +47,7 @@ interface ThemeSwitchProps {
 
 const ThemeSwitch: React.FC<ThemeSwitchProps> = ({ checked, toggle }) => {
   return (
-    <div style={{ margin: '1rem' }}>
+    <div style={{ margin: '1rem', position: 'absolute' }}>
       <CheckBoxWrapper>
         <Icon src={moon} alt="" show={!checked} />
         <Icon src={sun} alt="" show={checked} />
